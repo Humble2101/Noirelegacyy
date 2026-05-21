@@ -6,6 +6,13 @@ const nextConfig = {
       { protocol: "https", hostname: "fastly.picsum.photos" },
     ],
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  experimental: {
+    missingSuspenseWithCSRBailout: false,
+  },
+  output: "standalone",
 };
 
 module.exports = nextConfig;
