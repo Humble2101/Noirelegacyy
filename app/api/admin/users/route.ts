@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -27,7 +28,10 @@ export async function PATCH(request: Request) {
   const { userId, role } = await request.json();
 
   if (userId === session.user.id) {
-    return NextResponse.json({ error: "Cannot change your own role" }, { status: 400 });
+    return NextResponse.json(
+      { error: "Cannot change your own role" },
+      { status: 400 },
+    );
   }
 
   if (role !== "USER" && role !== "ADMIN") {
@@ -52,7 +56,10 @@ export async function DELETE(request: Request) {
   const userId = searchParams.get("id");
 
   if (!userId || userId === session.user.id) {
-    return NextResponse.json({ error: "Cannot delete this user" }, { status: 400 });
+    return NextResponse.json(
+      { error: "Cannot delete this user" },
+      { status: 400 },
+    );
   }
 
   await prisma.user.delete({ where: { id: userId } });

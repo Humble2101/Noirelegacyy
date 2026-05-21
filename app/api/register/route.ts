@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
@@ -18,7 +19,7 @@ export async function POST(request: Request) {
     if (existing) {
       return NextResponse.json(
         { error: "An account with this email already exists." },
-        { status: 409 }
+        { status: 409 },
       );
     }
 
@@ -38,13 +39,19 @@ export async function POST(request: Request) {
 
     return NextResponse.json(
       { message: "Account created successfully.", userId: user.id },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: error.errors[0].message }, { status: 400 });
+      return NextResponse.json(
+        { error: error.errors[0].message },
+        { status: 400 },
+      );
     }
     console.error(error);
-    return NextResponse.json({ error: "Something went wrong." }, { status: 500 });
+    return NextResponse.json(
+      { error: "Something went wrong." },
+      { status: 500 },
+    );
   }
 }
